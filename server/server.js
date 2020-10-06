@@ -3,6 +3,7 @@ const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 
+const mongoose = require('mongoose');
 // import our typeDefs and resolvers
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
@@ -36,6 +37,16 @@ app.get('*', (req, res) => {
 });
 
 db.once('open', () => {
+
+  mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/photo-social', {
+  useFindAndModify: false,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+// Use this to log mongo queries being executed!
+mongoose.set('debug', true);
+
   app.listen(PORT, () => {
     console.log(`API server running on port ${PORT}!`);
     console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);

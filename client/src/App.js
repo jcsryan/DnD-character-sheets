@@ -10,6 +10,8 @@ function App() {
     switch(currentPage){
       case 'Roll':
         return <DiceRoll/>
+        default:
+          return <DiceRoll/>
     }
   }
 
